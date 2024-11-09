@@ -1,4 +1,5 @@
-alive = []
+alive = set()
+dead = set()
 
 from PlayerClass import Player
 
@@ -7,14 +8,13 @@ class Game:
         from PlayerClass import Player
         self.players: dict[str, Player] = {}
         self.day = 1
-        self.dead = []
     def add_player(self, name: str):
         from PlayerClass import Player
         if name not in self.players:
             self.players[name] = Player(name)
             print(f"{name} foi adicionado(a) ao jogo.")
             self.players[name].print_data()
-            alive.append(name)
+            alive.add(name)
         else:
             print(f"{name} já está no jogo!")
 
