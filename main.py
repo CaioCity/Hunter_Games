@@ -1,15 +1,12 @@
 from GameClass import Game
 
-
 game = Game()
 
 game.add_player("Vaginaldo")
 game.add_player("Claudemir")
 game.add_player("SnowMan")
 
-
 game.listar_players()
-#game.jogadorStats("Penisvaldo")
 
 
 # floresta, lago, deserto, montanha (e carverna), praia, início,

@@ -1,20 +1,20 @@
-from PlayerClass import Player
+alive = []
 
-registro: list[str] = []
+from PlayerClass import Player
 
 class Game:
     def __init__(self):
+        from PlayerClass import Player
         self.players: dict[str, Player] = {}
         self.day = 1
-        self.alive = []
         self.dead = []
-
     def add_player(self, name: str):
+        from PlayerClass import Player
         if name not in self.players:
             self.players[name] = Player(name)
             print(f"{name} foi adicionado(a) ao jogo.")
             self.players[name].print_data()
-            self.alive.append(name)
+            alive.append(name)
         else:
             print(f"{name} já está no jogo!")
 
@@ -23,7 +23,7 @@ class Game:
             print(f"{i} está {self.players[i].status}")
 
     def listar_vivos(self):
-        for i in self.alive:
+        for i in alive:
             print(f"{i} está vivo(a).")
 
     def listar_mortos(self):
@@ -33,11 +33,8 @@ class Game:
     #### In Game
 
     def run_turn(self):
-        registro = []
-        for name in self.alive:
+        for name in alive:
             player = self.players[name]
             player.turn()
         print("Resumo da rodada:\n")
-        print(registro)
-
 
