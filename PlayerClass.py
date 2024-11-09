@@ -44,8 +44,7 @@ class Player:
     self.local = "Início"
     self.friends = {}
     self.weapon = ""
-    self.maestria = 1 + randrange(10,71)/100
-    self.AD = 0,6*self.strength + 0,4*self.stamina 
+    self.maestria = 1 + randrange(10,71)/100 
     self.bag = set()
     self.actions: dict[Raridade, set] = {
       Raridade.LENDARIO: {self.morteBosta},
@@ -69,23 +68,23 @@ class Player:
   def calc_AD(self):
     match self.weapon:
       case "":
-        self.AD = 0,6*self.strength + 0,4*self.stamina
+        return 0.6*self.strength + 0.4*self.stamina
       case "Machado":
-        self.AD = (0,6*self.strength + 0,3*self.stamina + 0.1*self.qi)*self.maestria
+        return (0.6*self.strength + 0.3*self.stamina + 0.1*self.qi)*self.maestria
       case "Espada":
-        self.AD = (0,4*self.strength + 0,4*self.stamina + 0.1*self.qi)*(self.maestria+0.2)
+        return (0.4*self.strength + 0.4*self.stamina + 0.1*self.qi)*(self.maestria+0.2)
       case "Arco":
-        self.AD = (0,3*self.strength + 0,1*self.stamina + 0.4*self.qi)*(self.maestria+0.3)
+        return (0.3*self.strength + 0.1*self.stamina + 0.4*self.qi)*(self.maestria+0.3)
       case "Punhal":
-        self.AD = (0,3*self.strength + 0,4*self.stamina + 0.3*self.qi)*(self.maestria+0.1)
-      # Martelo Nunchuaku lança
+        return (0.3*self.strength + 0.4*self.stamina + 0.3*self.qi)*(self.maestria+0.1)
+      # Martelo Nunchuaku lança, outras armas
 
-  def calc_DMG(self,AD : int, weapon : str, buff : bool):
+  def calc_DMG(self, AD : int, weapon : str, buff : bool):
     if weapon == "":
       return AD
     if buff:
-      return (AD * (1 - self.armor/(100+self.armor)) * 1.05)
-    return (AD * (1 - self.armor/(100+self.armor)))
+      return AD * (1 - self.armor/(100+self.armor)) * 1.05
+    return AD * (1 - self.armor/(100+self.armor))
     
   def turn(self):
     # Escolher a raridade
@@ -134,12 +133,13 @@ class Player:
     pass
     # codar saques (food, arma, veneno,etc)
 
-  def lutar(player1, player2 : 'Player'):
+  def lutar(self, player2 : 'Player'):
+    player1 = self
     print(f"{player1.nome} e {player2.nome} entraram em batalha!")
-    player1.calc_AD()
-    player2.calc_AD()
-    DMG_in_P1 = player1.calc_DMG(player2.AD, player2.weapon, "Veneno" in player2.bag)
-    DMG_in_P2 = player2.calc_DMG(player1.AD, player1.weapon, "Veneno" in player1.bag)
+    player1_AD = player1.calc_AD()
+    player2_AD = player2.calc_AD()
+    DMG_in_P1 = player1.calc_DMG(player2_AD, player2.weapon, "Veneno" in player2.bag)
+    DMG_in_P2 = player2.calc_DMG(player1_AD, player1.weapon, "Veneno" in player1.bag)
     Time_to_defeat_P1 = player1.hp/DMG_in_P1
     Time_to_defeat_P2 = player2.hp/DMG_in_P2
     if Time_to_defeat_P1>Time_to_defeat_P2:
