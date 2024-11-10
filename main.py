@@ -11,10 +11,7 @@ game.listar_players()
 
 # floresta, lago, deserto, montanha (e carverna), praia, início,
 
-# campo aberto, ruínas, pântano, 
-
-
+# campo aberto, ruínas, pântano,
 
 
 # setar um sistema de patrocinio em q podemos mandar balões aos players
-

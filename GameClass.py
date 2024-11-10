@@ -1,15 +1,13 @@
 alive = set()
 dead = set()
 
-from PlayerClass import Player
 
 class Game:
     def __init__(self):
-        from PlayerClass import Player
         self.players: dict[str, Player] = {}
         self.day = 1
+
     def add_player(self, name: str):
-        from PlayerClass import Player
         if name not in self.players:
             self.players[name] = Player(name)
             print(f"{name} foi adicionado(a) ao jogo.")
@@ -27,7 +25,7 @@ class Game:
             print(f"{i} está vivo(a).")
 
     def listar_mortos(self):
-        for i in self.dead:
+        for i in dead:
             print(f"{i} está morto(a).")
 
     #### In Game
@@ -38,3 +36,5 @@ class Game:
             player.turn()
         print("Resumo da rodada:\n")
 
+
+from PlayerClass import Player

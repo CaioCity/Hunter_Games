@@ -6,7 +6,7 @@ class Weapon:
         self.range = range
         self.rarity = rarity
         self.buff = set()
-    
+
     def aprimorar(self):
         # @Claudemir, e um enum aqui, hein???
         match self.rarity:
@@ -30,5 +30,5 @@ class Weapon:
                 pass
             case "Punhal"
                 pass
-                
+
 """
