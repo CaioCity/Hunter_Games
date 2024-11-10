@@ -2,11 +2,11 @@ from enum import Enum
 
 
 class Raridade(Enum):
-    LENDARIO = range(50, 51)
-    EPICO = range(45, 50)
-    RARO = range(35, 45)
-    INCOMUM = range(21, 35)
     COMUM = range(1, 21)
+    INCOMUM = range(21, 35)
+    RARO = range(35, 45)
+    EPICO = range(45, 50)
+    LENDARIO = range(50, 51)
 
     @classmethod
     def _missing_(cls, value):
@@ -15,6 +15,15 @@ class Raridade(Enum):
                 return member
 
         return None
+
+    def __add__(self, level: int) -> 'Raridade':
+        itens = list(Raridade)
+        llen = len(Raridade)
+        idx = min(llen - 1, itens.index(self) + level)
+        return itens[idx]
+
+    def __iadd__(self, level: int) -> 'Raridade':
+        return self + level
 
 
 LOCAIS = {
