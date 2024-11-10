@@ -65,10 +65,8 @@ class Player:
         print(f"Inteligência: {self.qi}")
         print(f"Fôlego: {self.stamina}\n")
 
-    def calc_AD(self):
+    def calc_AD(self) -> float:
         match self.weapon:
-            case "":
-                return 0.6 * self.strength + 0.4 * self.stamina
             case "Machado":
                 return (0.6 * self.strength + 0.3 * self.stamina + 0.1 * self.qi) * self.maestria
             case "Espada":
@@ -84,9 +82,11 @@ class Player:
                     self.maestria + 0.1
                 )
             # Martelo Nunchuaku lança, outras armas
+            case _:
+                return 0.6 * self.strength + 0.4 * self.stamina
 
-    def calc_DMG(self, AD: int, weapon: str, buff: bool):
-        if weapon == "":
+    def calc_DMG(self, AD: float, weapon: str, buff: bool) -> float:
+        if not weapon:
             return AD
         if buff:
             return AD * (1 - self.armor / (100 + self.armor)) * 1.05
@@ -131,9 +131,7 @@ class Player:
         elif food in self.bag:
             print(f"{self.name} comeu, descansou e recuperou 4 pnts de vida.")
             self.bag.remove(food)
-        self.hp += 4
-        if self.hp > 100:
-            self.hp = 100
+        self.hp = min(100, self.hp + 4)
 
     def saquear(self, bag):
         pass
@@ -141,7 +139,7 @@ class Player:
 
     def lutar(self, player2: 'Player'):
         player1 = self
-        print(f"{player1.nome} e {player2.nome} entraram em batalha!")
+        print(f"{player1.name} e {player2.name} entraram em batalha!")
         player1_AD = player1.calc_AD()
         player2_AD = player2.calc_AD()
         DMG_in_P1 = player1.calc_DMG(player2_AD, player2.weapon, "Veneno" in player2.bag)
@@ -156,7 +154,7 @@ class Player:
             winner = player2
             loser = player1
             DMG = DMG_in_P2
-        print(f"{winner.nome} saiu vitorioso.")
+        print(f"{winner.name} saiu vitorioso.")
         loser.morrer()
         Time = min(Time_to_defeat_P1, Time_to_defeat_P2)
         winner.hp = max(1, winner.hp - Time * DMG)
@@ -187,7 +185,7 @@ class Player:
         peixes = ["pirarucu", "cará", "baiacu", "bota usada", "porra nenhuma"]
         item = choice(peixes)
         print(f"{self.name} pescou {item}")
-        if item == "pirarucu" or item == "cará":
+        if item in ("pirarucu", "cará"):
             self.bag.add(item)
             if self.hp < 100:
                 self.comer(item)
@@ -197,10 +195,8 @@ class Player:
 
     def dormir(self):
         print(f"{self.name} dormiu tranquilamente como um neném.")
-        self.hp += 3
         print(f"{self.name} descansou e recuperou 4 pnts de vida.")
-        if self.hp > 100:
-            self.hp = 100
+        self.hp = min(100, self.hp + 3)
 
     def olhar_ao_redor(self):
         for player in alive:
@@ -211,7 +207,8 @@ class Player:
         pass
 
     def furtar(self, player2: 'Player'):
-        item = choice(player2.bag)
+        item = choice(list(player2.bag))
+
         self.bag.add(item)
         player2.bag.remove(item)
         print(f"{self.name} furtou {item} de {player2.name}.")
@@ -231,11 +228,11 @@ class Player:
   def f1
   def f2
   def f3
-  
+
   def movePlace(self, new):
     self.removeOld(old)
     self.addNew(new)
-  
+
   def removeOld(self, old):
       match old:
         case "Deserto":
@@ -244,6 +241,5 @@ class Player:
         case "Início":
         case "Praia":
         case "Montanha"
-        
 
 """
