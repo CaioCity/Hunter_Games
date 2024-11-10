@@ -1,34 +1,29 @@
 # arquivo comentado, guardar a ideia
 """
+from utils import Raridade
+
+
 class Weapon:
-    def __init__(self,name,range,rarity = "default"):
+    def __init__(self, name, atk_range, rarity: Raridade = Raridade.COMUM):
         self.name = name
-        self.range = range
+        self.atk_range = atk_range
         self.rarity = rarity
         self.buff = set()
 
     def aprimorar(self):
-        # @Claudemir, e um enum aqui, hein???
-        match self.rarity:
-            case "common":
-                self.rarity = "uncommon"
-            case "uncommon":
-                self.rarity = "rare"
-            case "rare":
-                self.rarity = "epic"
-            case "epic":
-                self.rarity = "legendary"
+        self.rarity += 1
 
     # if arco (n vale a pena fzr uma classe arco com herança, plmds)
-    def hunt(self,presa : str):
+    def hunt(self, presa: str):
+        pass
 
-    def usar(self, target : str):
+    def usar(self, target: str):
         match self.name:
             case "Arco":
                 pass
             case "Espada":
                 pass
-            case "Punhal"
+            case "Punhal":
                 pass
 
 """
