@@ -1,6 +1,7 @@
 alive = set()
 dead = set()
 
+from PlayerClass import Player
 
 class Game:
     def __init__(self):
@@ -35,6 +36,3 @@ class Game:
             player = self.players[name]
             player.turn()
         print("Resumo da rodada:\n")
-
-
-from PlayerClass import Player
